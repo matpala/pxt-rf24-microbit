@@ -1,6 +1,6 @@
 {
     "name": "RF24 microbit V2",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Minimal MakeCode extension to send RF24-compatible packets from micro:bit V2.",
     "license": "MIT",
     "dependencies": {
@@ -8,6 +8,8 @@
     },
     "files": [
         "README.md",
+        "shims.d.ts",
+        "enums.d.ts",
         "rf24.ts",
         "rf24.cpp"
     ],
