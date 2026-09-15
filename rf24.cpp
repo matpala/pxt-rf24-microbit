@@ -72,7 +72,7 @@ static void configureRadio() {
 #endif
 
 //%
-void begin() {
+void native_begin() {
 #if MICROBIT_CODAL
     configureRadio();
 #else
@@ -108,6 +108,11 @@ void send_number(int value) {
     (void)value;
     target_panic(PANIC_VARIANT_NOT_SUPPORTED);
 #endif
+}
+
+//%
+int native_probe() {
+    return 222;
 }
 
 }

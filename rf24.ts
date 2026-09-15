@@ -15,9 +15,9 @@ namespace rf24 {
      */
     //% blockId=rf24_begin
     //% block="RF24 iniciar"
-    //% shim=rf24::begin
+    //% shim=rf24::native_begin
     export function begin(): void {
-        // Solo se ejecuta en el simulador.
+        return
     }
 
     /**
@@ -27,6 +27,16 @@ namespace rf24 {
     //% block="RF24 enviar número %value"
     //% shim=rf24::send_number
     export function sendNumber(value: number): void {
-        // Solo se ejecuta en el simulador.
+        return
+    }
+
+    /**
+     * Distinguishes the simulator body from the native C++ shim.
+     */
+    //% blockId=rf24_native_probe
+    //% block="RF24 prueba nativa"
+    //% shim=rf24::native_probe
+    export function nativeProbe(): number {
+        return 111
     }
 }

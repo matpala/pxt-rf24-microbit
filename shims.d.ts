@@ -1,0 +1,11 @@
+// Temporary generated-equivalent declarations; regenerate with PXT.
+declare namespace rf24 {
+    //% shim=rf24::native_begin
+    function native_begin(): void;
+
+    //% shim=rf24::send_number
+    function send_number(value: number): void;
+
+    //% shim=rf24::native_probe
+    function native_probe(): number;
+}

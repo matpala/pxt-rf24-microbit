@@ -1,6 +1,3 @@
-rf24.begin()
-
-input.onButtonPressed(Button.A, function () {
-    rf24.sendNumber(42)
-    basic.showIcon(IconNames.Yes)
-})
+rf24.testExtension()
+basic.pause(500)
+basic.showNumber(rf24.nativeProbe())
