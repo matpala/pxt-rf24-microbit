@@ -47,7 +47,7 @@ static void configureRadio() {
         (32UL << RADIO_PCNF1_MAXLEN_Pos) |
         (0UL << RADIO_PCNF1_STATLEN_Pos) |
         (4UL << RADIO_PCNF1_BALEN_Pos) |
-        (RADIO_PCNF1_ENDIAN_Little << RADIO_PCNF1_ENDIAN_Pos) |
+        (RADIO_PCNF1_ENDIAN_Big << RADIO_PCNF1_ENDIAN_Pos) |
         (RADIO_PCNF1_WHITEEN_Disabled << RADIO_PCNF1_WHITEEN_Pos);
 
     NRF_RADIO->BASE0 = 0xE7E7E7E7;
