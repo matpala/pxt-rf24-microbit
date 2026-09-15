@@ -1,0 +1,25 @@
+{
+    "name": "RF24 microbit V2",
+    "version": "0.1.0",
+    "description": "Minimal MakeCode extension to send RF24-compatible packets from micro:bit V2.",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "rf24.ts",
+        "rf24.cpp"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true,
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "tsprj",
+    "disablesVariants": [
+        "mbdal"
+    ]
+}
