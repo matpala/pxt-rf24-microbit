@@ -117,18 +117,25 @@ void send_text(String text) {
         configureRadio();
 
     uint32_t length = PXT_STRING_DATA_LENGTH(text);
-    if (length > sizeof(txPacket.payload))
-        length = sizeof(txPacket.payload);
+    if (length > sizeof(txPacket.payload) - 2)
+        length = sizeof(txPacket.payload) - 2;
 
-    txPacket.length = (uint8_t)length;
+    uint32_t packetLength = length + 2;
+    if (packetLength < 5)
+        packetLength = 5;
+    txPacket.length = (uint8_t)packetLength;
 
     // ESB packet ID 0..3, NO_ACK=0.
     txPacket.s1 = packetId & 0x03;
     packetId = (packetId + 1) & 0x03;
 
     const char *data = PXT_STRING_DATA(text);
+    txPacket.payload[0] = 0x02;
+    txPacket.payload[1] = (uint8_t)length;
     for (uint32_t i = 0; i < length; ++i)
-        txPacket.payload[i] = (uint8_t)data[i];
+        txPacket.payload[i + 2] = (uint8_t)data[i];
+    for (uint32_t i = length + 2; i < packetLength; ++i)
+        txPacket.payload[i] = 0;
 
     NRF_RADIO->PACKETPTR =
         reinterpret_cast<uint32_t>(&txPacket);

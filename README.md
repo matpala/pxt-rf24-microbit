@@ -19,5 +19,10 @@ RF blocks:
 - RF24 enviar número
 - RF24 enviar texto
 
-`RF24 enviar texto` transmits the string's raw UTF-8 bytes without a terminator.
-The payload is limited to 32 bytes (the first 32 bytes are sent).
+`RF24 enviar número` keeps the legacy 4-byte little-endian integer payload
+(for example, `42` is sent as `2A 00 00 00`).
+
+`RF24 enviar texto` transmits `[0x02, utf8_length, utf8_bytes]`, followed by
+zero padding when needed. Text is limited to 30 UTF-8 bytes so the marker and
+length fit in the 32-byte RF payload. Packets are padded to at least 5 bytes,
+which keeps them distinct from the 4-byte numeric format.
