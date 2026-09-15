@@ -1,13 +1,12 @@
-# RF24 micro:bit V2 v0.1.1
+# RF24 micro:bit V2 v0.1.2
 
-Corrección de la primera versión:
-- agrega `shims.d.ts` y `enums.d.ts`
-- separa `rf24` (bloques) de `rf24native` (C++)
-- mantiene la API visible simple: `RF24 iniciar` y `RF24 enviar número`
+Esta versión corrige la arquitectura de los shims MakeCode:
 
-Configuración fija de esta prueba:
-- canal 76
-- 2 Mbps
-- dirección E7:E7:E7:E7:E7
-- CRC16
-- ESB
+- namespace visible: `rf24`
+- funciones nativas declaradas en `shims.d.ts`
+- wrapper TypeScript simple
+- C++ directo en el mismo namespace nativo
+
+Prueba:
+- RF24 iniciar
+- RF24 enviar número 42

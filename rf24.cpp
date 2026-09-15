@@ -6,7 +6,7 @@
 
 using namespace pxt;
 
-namespace rf24native {
+namespace rf24 {
 
 #if MICROBIT_CODAL
     struct __attribute__((packed)) RadioPacket {
@@ -85,8 +85,6 @@ namespace rf24native {
         if (!initialized) configure_radio();
 
         txPacket.length = 4;
-
-        // PID rota 0..3; NO_ACK=0
         txPacket.s1 = (packetId & 0x03);
         packetId = (packetId + 1) & 0x03;
 

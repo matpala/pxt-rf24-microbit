@@ -1,7 +1,7 @@
 {
-    "name": "RF24 microbit V2",
-    "version": "0.1.1",
-    "description": "Minimal MakeCode extension to send RF24-compatible packets from micro:bit V2.",
+    "name": "rf24-microbit-v2",
+    "version": "0.1.2",
+    "description": "MakeCode blocks for RF24-compatible TX on micro:bit V2.",
     "license": "MIT",
     "dependencies": {
         "core": "*"
