@@ -48,9 +48,10 @@ namespace rf24 {
      * Runs a handler when a valid 4-byte RF24 number is received.
      */
     //% blockId=rf24_on_received_number
-    //% block="al recibir RF24 numero %handler"
-    export function onReceivedNumber(handler: (value: number) => void): void {
-        control.onEvent(RF24_EVENT_SOURCE, RF24_EVENT_VALUE, () => handler(receivedNumber()))
+    //% block="al recibir RF24 numero"
+    //% draggableParameters=reporter
+    export function onReceivedNumber(cb: (value: number) => void): void {
+        control.onEvent(RF24_EVENT_SOURCE, RF24_EVENT_VALUE, () => cb(receivedNumber()))
         if (receiverStarted)
             return
 
