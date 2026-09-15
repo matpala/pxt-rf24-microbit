@@ -31,6 +31,16 @@ namespace rf24 {
     }
 
     /**
+     * Sends the raw UTF-8 bytes of a string.
+     */
+    //% blockId=rf24_send_text
+    //% block="RF24 enviar texto %text"
+    //% shim=rf24::send_text
+    export function sendText(text: string): void {
+        return
+    }
+
+    /**
      * Distinguishes the simulator body from the native C++ shim.
      */
     //% blockId=rf24_native_probe

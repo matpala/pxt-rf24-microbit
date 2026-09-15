@@ -17,3 +17,7 @@ Blocks → TypeScript → C++ path; it does not test RF transmission.
 RF blocks:
 - RF24 iniciar
 - RF24 enviar número
+- RF24 enviar texto
+
+`RF24 enviar texto` transmits the string's raw UTF-8 bytes without a terminator.
+The payload is limited to 32 bytes (the first 32 bytes are sent).

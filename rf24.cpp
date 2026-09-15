@@ -111,6 +111,39 @@ void send_number(int value) {
 }
 
 //%
+void send_text(String text) {
+#if MICROBIT_CODAL
+    if (!initialized)
+        configureRadio();
+
+    uint32_t length = PXT_STRING_DATA_LENGTH(text);
+    if (length > sizeof(txPacket.payload))
+        length = sizeof(txPacket.payload);
+
+    txPacket.length = (uint8_t)length;
+
+    // ESB packet ID 0..3, NO_ACK=0.
+    txPacket.s1 = packetId & 0x03;
+    packetId = (packetId + 1) & 0x03;
+
+    const char *data = PXT_STRING_DATA(text);
+    for (uint32_t i = 0; i < length; ++i)
+        txPacket.payload[i] = (uint8_t)data[i];
+
+    NRF_RADIO->PACKETPTR =
+        reinterpret_cast<uint32_t>(&txPacket);
+
+    NRF_RADIO->EVENTS_DISABLED = 0;
+    NRF_RADIO->TASKS_TXEN = 1;
+
+    waitDisabled();
+#else
+    (void)text;
+    target_panic(PANIC_VARIANT_NOT_SUPPORTED);
+#endif
+}
+
+//%
 int native_probe() {
     return 222;
 }
