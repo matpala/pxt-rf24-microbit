@@ -5,16 +5,18 @@ namespace rf24 {
      */
     //% blockId=rf24_begin
     //% block="RF24 iniciar"
+    //% shim=rf24::begin
     export function begin(): void {
-        native_begin()
+        // Solo se ejecuta en el simulador.
     }
 
     /**
-     * Envía un número entero.
+     * Envía un número entero de 32 bits.
      */
     //% blockId=rf24_send_number
     //% block="RF24 enviar número %value"
+    //% shim=rf24::send_number
     export function sendNumber(value: number): void {
-        native_send_number(value)
+        // Solo se ejecuta en el simulador.
     }
 }
