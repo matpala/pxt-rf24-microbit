@@ -17,12 +17,28 @@ struct __attribute__((packed)) RadioPacket {
 };
 
 static RadioPacket txPacket;
+static RadioPacket rxPacket;
 static bool initialized = false;
+static bool receiveActive = false;
 static uint8_t packetId = 0;
+static int32_t receivedNumberValue = 0;
+
+static const int RF24_EVENT_SOURCE = 0x5246;
+static const int RF24_EVENT_VALUE = 1;
 
 static void waitDisabled() {
     while (NRF_RADIO->EVENTS_DISABLED == 0) {}
     NRF_RADIO->EVENTS_DISABLED = 0;
+}
+
+static void disableRadio() {
+    if ((NRF_RADIO->STATE & RADIO_STATE_STATE_Msk) ==
+        (RADIO_STATE_STATE_Disabled << RADIO_STATE_STATE_Pos))
+        return;
+
+    NRF_RADIO->EVENTS_DISABLED = 0;
+    NRF_RADIO->TASKS_DISABLE = 1;
+    waitDisabled();
 }
 
 static void configureRadio() {
@@ -52,6 +68,7 @@ static void configureRadio() {
 
     NRF_RADIO->BASE0 = 0xE7E7E7E7;
     NRF_RADIO->PREFIX0 = 0x000000E7;
+    NRF_RADIO->RXADDRESSES = 1;
     NRF_RADIO->TXADDRESS = 0;
 
     NRF_RADIO->CRCCNF = RADIO_CRCCNF_LEN_Two;
@@ -69,12 +86,21 @@ static void configureRadio() {
 
     initialized = true;
 }
+
+static void armReceive() {
+    NRF_RADIO->PACKETPTR = reinterpret_cast<uint32_t>(&rxPacket);
+    NRF_RADIO->EVENTS_END = 0;
+    NRF_RADIO->EVENTS_DISABLED = 0;
+    NRF_RADIO->TASKS_RXEN = 1;
+}
 #endif
 
 //%
 void native_begin() {
 #if MICROBIT_CODAL
     configureRadio();
+    receiveActive = true;
+    armReceive();
 #else
     target_panic(PANIC_VARIANT_NOT_SUPPORTED);
 #endif
@@ -85,6 +111,10 @@ void send_number(int value) {
 #if MICROBIT_CODAL
     if (!initialized)
         configureRadio();
+
+    const bool resumeReceive = receiveActive;
+    if (resumeReceive)
+        disableRadio();
 
     txPacket.length = 4;
 
@@ -104,6 +134,8 @@ void send_number(int value) {
     NRF_RADIO->TASKS_TXEN = 1;
 
     waitDisabled();
+    if (resumeReceive)
+        armReceive();
 #else
     (void)value;
     target_panic(PANIC_VARIANT_NOT_SUPPORTED);
@@ -115,6 +147,10 @@ void send_text(String text) {
 #if MICROBIT_CODAL
     if (!initialized)
         configureRadio();
+
+    const bool resumeReceive = receiveActive;
+    if (resumeReceive)
+        disableRadio();
 
     uint32_t length = PXT_STRING_DATA_LENGTH(text);
     if (length > sizeof(txPacket.payload) - 2)
@@ -144,9 +180,56 @@ void send_text(String text) {
     NRF_RADIO->TASKS_TXEN = 1;
 
     waitDisabled();
+    if (resumeReceive)
+        armReceive();
 #else
     (void)text;
     target_panic(PANIC_VARIANT_NOT_SUPPORTED);
+#endif
+}
+
+//%
+void poll_received_number() {
+#if MICROBIT_CODAL
+    if (!initialized)
+        configureRadio();
+    if (!receiveActive) {
+        receiveActive = true;
+        armReceive();
+    }
+
+    if (NRF_RADIO->EVENTS_END == 0)
+        return;
+
+    const bool valid = NRF_RADIO->CRCSTATUS != 0 && rxPacket.length == 4;
+    const int32_t value = (int32_t)((uint32_t)rxPacket.payload[0] |
+        ((uint32_t)rxPacket.payload[1] << 8) |
+        ((uint32_t)rxPacket.payload[2] << 16) |
+        ((uint32_t)rxPacket.payload[3] << 24));
+    NRF_RADIO->EVENTS_END = 0;
+
+    // END_DISABLE may not have completed when the fiber observes END.
+    disableRadio();
+
+    if (valid) {
+        receivedNumberValue = value;
+        MicroBitEvent(RF24_EVENT_SOURCE, RF24_EVENT_VALUE);
+    }
+
+    if ((NRF_RADIO->STATE & RADIO_STATE_STATE_Msk) ==
+        (RADIO_STATE_STATE_Disabled << RADIO_STATE_STATE_Pos))
+        armReceive();
+#else
+    // Simulator receive is intentionally a no-op.
+#endif
+}
+
+//%
+int received_number() {
+#if MICROBIT_CODAL
+    return receivedNumberValue;
+#else
+    return 0;
 #endif
 }
 
