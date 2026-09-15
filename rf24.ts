@@ -1,6 +1,16 @@
 //% color=#0066CC weight=90 icon="\uf1eb" block="RF24"
 namespace rf24 {
     /**
+     * Prueba que la extensión MakeCode fue cargada correctamente.
+     * No usa C++ ni la radio.
+     */
+    //% blockId=rf24_test_extension
+    //% block="RF24 probar extensión"
+    export function testExtension(): void {
+        basic.showIcon(IconNames.Yes)
+    }
+
+    /**
      * Inicializa la radio RF24.
      */
     //% blockId=rf24_begin
