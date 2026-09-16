@@ -19,6 +19,9 @@
     "rf24_on_number_drag|param|value": "valor",
     "rf24_on_motor_command_drag|param|left": "izquierda",
     "rf24_on_motor_command_drag|param|right": "derecha",
+    "rf24.onReceivedNumber|param|value": "valor",
+    "rf24.onReceivedMotorCommand|param|left": "izquierda",
+    "rf24.onReceivedMotorCommand|param|right": "derecha",
     "{id:category}RF24": "RF24",
     "{id:group}Receive": "Recibir"
 }

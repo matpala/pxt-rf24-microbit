@@ -8,8 +8,11 @@
     "rf24.sendText|param|text": "texto",
     "rf24_send_text|param|text": "texto",
     "rf24.onReceivedNumber": "Ejecuta un controlador cuando recibe un número RF24 válido de 4 bytes.",
+    "rf24.onReceivedNumber|param|value": "valor",
     "rf24_on_number_drag|param|value": "valor",
     "rf24.onReceivedMotorCommand": "Ejecuta un controlador cuando recibe un comando RF24 válido para motores.",
+    "rf24.onReceivedMotorCommand|param|left": "izquierda",
+    "rf24.onReceivedMotorCommand|param|right": "derecha",
     "rf24_on_motor_command_drag|param|left": "izquierda",
     "rf24_on_motor_command_drag|param|right": "derecha",
     "rf24.nativeProbe": "Devuelve un valor de prueba desde C++."
