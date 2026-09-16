@@ -3,9 +3,14 @@
     "rf24.begin": "Inicializa la radio RF24.",
     "rf24.sendNumber": "Envía un número entero de 32 bits.",
     "rf24.sendNumber|param|value": "valor",
+    "rf24_send_number|param|value": "valor",
     "rf24.sendText": "Envía los bytes UTF-8 de un texto.",
     "rf24.sendText|param|text": "texto",
+    "rf24_send_text|param|text": "texto",
     "rf24.onReceivedNumber": "Ejecuta un controlador cuando recibe un número RF24 válido de 4 bytes.",
+    "rf24_on_number_drag|param|value": "valor",
     "rf24.onReceivedMotorCommand": "Ejecuta un controlador cuando recibe un comando RF24 válido para motores.",
+    "rf24_on_motor_command_drag|param|left": "izquierda",
+    "rf24_on_motor_command_drag|param|right": "derecha",
     "rf24.nativeProbe": "Devuelve un valor de prueba desde C++."
 }

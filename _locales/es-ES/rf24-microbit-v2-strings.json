@@ -14,6 +14,11 @@
     "rf24.onReceivedMotorCommand|block": "al recibir comando RF24 motor",
     "rf24_native_probe|block": "RF24 prueba nativa",
     "rf24.nativeProbe|block": "RF24 prueba nativa",
+    "rf24_send_number|param|value": "valor",
+    "rf24_send_text|param|text": "texto",
+    "rf24_on_number_drag|param|value": "valor",
+    "rf24_on_motor_command_drag|param|left": "izquierda",
+    "rf24_on_motor_command_drag|param|right": "derecha",
     "{id:category}RF24": "RF24",
     "{id:group}Receive": "Recibir"
 }
