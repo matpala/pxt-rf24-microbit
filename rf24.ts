@@ -2,6 +2,8 @@
 namespace rf24 {
     const RF24_EVENT_SOURCE = 0x5246
     const RF24_EVENT_VALUE = 1
+    const RF24_MOTOR_EVENT_SOURCE = 0x5247
+    const RF24_MOTOR_EVENT_VALUE = 1
     let receiverStarted = false
 
     /**
@@ -65,6 +67,28 @@ namespace rf24 {
         })
     }
 
+    /**
+     * Runs a handler when a valid RF24 motor command is received.
+     */
+    //% blockId=rf24_on_motor_command_drag block="al recibir comando RF24 motor" blockGap=16
+    //% useLoc="rf24.onReceivedMotorCommand" draggableParameters=reporter
+    //% group="Receive"
+    //% weight=19
+    export function onReceivedMotorCommand(cb: (left: number, right: number) => void): void {
+        control.onEvent(RF24_MOTOR_EVENT_SOURCE, RF24_MOTOR_EVENT_VALUE,
+            () => cb(receivedMotorLeft(), receivedMotorRight()))
+        if (receiverStarted)
+            return
+
+        receiverStarted = true
+        control.inBackground(() => {
+            while (true) {
+                pollReceivedNumber()
+                basic.pause(1)
+            }
+        })
+    }
+
     //% shim=rf24::poll_received_number
     function pollReceivedNumber(): void {
         return
@@ -72,6 +96,16 @@ namespace rf24 {
 
     //% shim=rf24::received_number
     function receivedNumber(): number {
+        return 0
+    }
+
+    //% shim=rf24::received_motor_left
+    function receivedMotorLeft(): number {
+        return 0
+    }
+
+    //% shim=rf24::received_motor_right
+    function receivedMotorRight(): number {
         return 0
     }
 

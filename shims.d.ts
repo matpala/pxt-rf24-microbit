@@ -15,6 +15,12 @@ declare namespace rf24 {
     //% shim=rf24::received_number
     function received_number(): number;
 
+    //% shim=rf24::received_motor_left
+    function received_motor_left(): number;
+
+    //% shim=rf24::received_motor_right
+    function received_motor_right(): number;
+
     //% shim=rf24::native_probe
     function native_probe(): number;
 }

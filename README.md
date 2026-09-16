@@ -19,6 +19,15 @@ RF blocks:
 - RF24 enviar número
 - RF24 enviar texto
 - al recibir RF24 numero
+- al recibir comando RF24 motor
+
+The motor command receive block accepts the 6-byte payload
+`[0x03, leftSpeedLo, leftSpeedHi, rightSpeedLo, rightSpeedHi, sequence]`.
+`leftSpeed` and `rightSpeed` are signed int16 little-endian values constrained
+to `-255..255`; packets with another shape, marker, or range are rejected.
+The sequence byte is reserved for command sequencing. Robotbit motor output and
+a command watchdog are deliberately future work; this slice only receives and
+reports the two validated speeds.
 
 `RF24 enviar número` keeps the legacy 4-byte little-endian integer payload
 (for example, `42` is sent as `2A 00 00 00`).
@@ -28,7 +37,8 @@ zero padding when needed. Text is limited to 30 UTF-8 bytes so the marker and
 length fit in the 32-byte RF payload. Packets are padded to at least 5 bytes,
 which keeps them distinct from the 4-byte numeric format.
 
-The receive block accepts only valid 4-byte numeric packets. This first receive
+The numeric receive block accepts valid 4-byte numeric packets, while the motor receive
+block accepts the documented valid 6-byte commands. This first receive
 slice is receive-only and does not send nRF24 auto-ACKs. Packets can be lost
 while the radio switches between RX and TX; TX is preserved and RX is re-armed
 after each transmission when receiving is active.

@@ -22,9 +22,13 @@ static bool initialized = false;
 static bool receiveActive = false;
 static uint8_t packetId = 0;
 static int32_t receivedNumberValue = 0;
+static int16_t receivedMotorLeftValue = 0;
+static int16_t receivedMotorRightValue = 0;
 
 static const int RF24_EVENT_SOURCE = 0x5246;
 static const int RF24_EVENT_VALUE = 1;
+static const int RF24_MOTOR_EVENT_SOURCE = 0x5247;
+static const int RF24_MOTOR_EVENT_VALUE = 1;
 
 static void waitDisabled() {
     while (NRF_RADIO->EVENTS_DISABLED == 0) {}
@@ -201,19 +205,31 @@ void poll_received_number() {
     if (NRF_RADIO->EVENTS_END == 0)
         return;
 
-    const bool valid = NRF_RADIO->CRCSTATUS != 0 && rxPacket.length == 4;
+    const bool validNumber = NRF_RADIO->CRCSTATUS != 0 && rxPacket.length == 4;
     const int32_t value = (int32_t)((uint32_t)rxPacket.payload[0] |
         ((uint32_t)rxPacket.payload[1] << 8) |
         ((uint32_t)rxPacket.payload[2] << 16) |
         ((uint32_t)rxPacket.payload[3] << 24));
+    const int16_t left = (int16_t)((uint16_t)rxPacket.payload[1] |
+        ((uint16_t)rxPacket.payload[2] << 8));
+    const int16_t right = (int16_t)((uint16_t)rxPacket.payload[3] |
+        ((uint16_t)rxPacket.payload[4] << 8));
+    const bool validMotor = NRF_RADIO->CRCSTATUS != 0 &&
+        rxPacket.length == 6 && rxPacket.payload[0] == 0x03 &&
+        left >= -255 && left <= 255 && right >= -255 && right <= 255;
     NRF_RADIO->EVENTS_END = 0;
 
     // END_DISABLE may not have completed when the fiber observes END.
     disableRadio();
 
-    if (valid) {
+    if (validNumber) {
         receivedNumberValue = value;
         MicroBitEvent(RF24_EVENT_SOURCE, RF24_EVENT_VALUE);
+    }
+    if (validMotor) {
+        receivedMotorLeftValue = left;
+        receivedMotorRightValue = right;
+        MicroBitEvent(RF24_MOTOR_EVENT_SOURCE, RF24_MOTOR_EVENT_VALUE);
     }
 
     if ((NRF_RADIO->STATE & RADIO_STATE_STATE_Msk) ==
@@ -228,6 +244,24 @@ void poll_received_number() {
 int received_number() {
 #if MICROBIT_CODAL
     return receivedNumberValue;
+#else
+    return 0;
+#endif
+}
+
+//%
+int received_motor_left() {
+#if MICROBIT_CODAL
+    return receivedMotorLeftValue;
+#else
+    return 0;
+#endif
+}
+
+//%
+int received_motor_right() {
+#if MICROBIT_CODAL
+    return receivedMotorRightValue;
 #else
     return 0;
 #endif
