@@ -1,11 +1,18 @@
 {
     "rf24|block": "RF24",
+    "rf24_test_extension|block": "RF24 probar extensión",
     "rf24.testExtension|block": "RF24 probar extensión",
+    "rf24_begin|block": "RF24 iniciar",
     "rf24.begin|block": "RF24 iniciar",
+    "rf24_send_number|block": "RF24 enviar número %value",
     "rf24.sendNumber|block": "RF24 enviar número %value",
+    "rf24_send_text|block": "RF24 enviar texto %text",
     "rf24.sendText|block": "RF24 enviar texto %text",
+    "rf24_on_number_drag|block": "al recibir RF24 número",
     "rf24.onReceivedNumber|block": "al recibir RF24 número",
+    "rf24_on_motor_command_drag|block": "al recibir comando RF24 motor",
     "rf24.onReceivedMotorCommand|block": "al recibir comando RF24 motor",
+    "rf24_native_probe|block": "RF24 prueba nativa",
     "rf24.nativeProbe|block": "RF24 prueba nativa",
     "{id:category}RF24": "RF24",
     "{id:group}Receive": "Recibir"

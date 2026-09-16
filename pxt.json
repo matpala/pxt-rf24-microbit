@@ -1,6 +1,6 @@
 {
     "name": "rf24-microbit-v2",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Experimental RF24-compatible blocks for micro:bit V2",
     "license": "MIT",
     "dependencies": {
