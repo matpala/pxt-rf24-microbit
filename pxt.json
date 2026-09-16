@@ -1,6 +1,6 @@
 {
     "name": "rf24-microbit-v2",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "Experimental RF24-compatible blocks for micro:bit V2",
     "license": "MIT",
     "dependencies": {
@@ -12,8 +12,8 @@
         "enums.d.ts",
         "rf24.ts",
         "rf24.cpp",
-        "_locales/es-ES/rf24-strings.json",
-        "_locales/es-ES/rf24-jsdoc-strings.json"
+        "_locales/es-ES/rf24-microbit-v2-strings.json",
+        "_locales/es-ES/rf24-microbit-v2-jsdoc-strings.json"
     ],
     "testFiles": [
         "test.ts"
