@@ -50,6 +50,7 @@ namespace rf24 {
      * Runs a handler when a valid 4-byte RF24 number is received.
      */
     //% blockId=rf24_on_number_drag block="on RF24 number received $value" blockGap=16
+    //% value.loc.es="valor" value.loc.es-ES="valor"
     //% useLoc="rf24.onReceivedNumber" draggableParameters=reporter
     //% group="Receive"
     //% weight=20
@@ -71,6 +72,7 @@ namespace rf24 {
      * Runs a handler when a valid RF24 motor command is received.
      */
     //% blockId=rf24_on_motor_command_drag block="on RF24 motor command received $left $right" blockGap=16
+    //% left.loc.es="izquierda" left.loc.es-ES="izquierda" right.loc.es="derecha" right.loc.es-ES="derecha"
     //% useLoc="rf24.onReceivedMotorCommand" draggableParameters=reporter
     //% group="Receive"
     //% weight=19
