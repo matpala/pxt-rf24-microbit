@@ -7,30 +7,37 @@ namespace rf24 {
     let receiverStarted = false
 
     /**
-     * Prueba que la extensión MakeCode fue cargada correctamente.
-     * No usa C++ ni la radio.
+     * Tests that the MakeCode extension loaded correctly.
+     * Does not use C++ or the radio.
      */
     //% blockId=rf24_test_extension
-    //% block="RF24 probar extensión"
+    //% block="RF24 test extension"
+    //% block.loc.es="RF24 probar extensión"
+    //% jsdoc.loc.es="Prueba que la extensión MakeCode fue cargada correctamente. No usa C++ ni la radio."
     export function testExtension(): void {
         basic.showIcon(IconNames.Yes)
     }
 
     /**
-     * Inicializa la radio RF24.
+     * Initializes the RF24 radio.
      */
     //% blockId=rf24_begin
-    //% block="RF24 iniciar"
+    //% block="RF24 begin"
+    //% block.loc.es="RF24 iniciar"
+    //% jsdoc.loc.es="Inicializa la radio RF24."
     //% shim=rf24::native_begin
     export function begin(): void {
         return
     }
 
     /**
-     * Envía un número entero de 32 bits.
+     * Sends a 32-bit integer.
      */
     //% blockId=rf24_send_number
-    //% block="RF24 enviar número %value"
+    //% block="RF24 send number %value"
+    //% block.loc.es="RF24 enviar número %value"
+    //% jsdoc.loc.es="Envía un número entero de 32 bits."
+    //% value.loc.es="valor"
     //% shim=rf24::send_number
     export function sendNumber(value: number): void {
         return
@@ -40,7 +47,10 @@ namespace rf24 {
      * Sends the raw UTF-8 bytes of a string.
      */
     //% blockId=rf24_send_text
-    //% block="RF24 enviar texto %text"
+    //% block="RF24 send text %text"
+    //% block.loc.es="RF24 enviar texto %text"
+    //% jsdoc.loc.es="Envía los bytes UTF-8 de un texto."
+    //% text.loc.es="texto"
     //% shim=rf24::send_text
     export function sendText(text: string): void {
         return
@@ -49,7 +59,9 @@ namespace rf24 {
     /**
      * Runs a handler when a valid 4-byte RF24 number is received.
      */
-    //% blockId=rf24_on_number_drag block="al recibir RF24 numero" blockGap=16
+    //% blockId=rf24_on_number_drag block="on RF24 number received" blockGap=16
+    //% block.loc.es="al recibir RF24 número"
+    //% jsdoc.loc.es="Ejecuta un controlador cuando recibe un número RF24 válido de 4 bytes."
     //% useLoc="rf24.onReceivedNumber" draggableParameters=reporter
     //% group="Receive"
     //% weight=20
@@ -70,7 +82,9 @@ namespace rf24 {
     /**
      * Runs a handler when a valid RF24 motor command is received.
      */
-    //% blockId=rf24_on_motor_command_drag block="al recibir comando RF24 motor" blockGap=16
+    //% blockId=rf24_on_motor_command_drag block="on RF24 motor command received" blockGap=16
+    //% block.loc.es="al recibir comando RF24 motor"
+    //% jsdoc.loc.es="Ejecuta un controlador cuando recibe un comando RF24 válido para motores."
     //% useLoc="rf24.onReceivedMotorCommand" draggableParameters=reporter
     //% group="Receive"
     //% weight=19
@@ -113,7 +127,8 @@ namespace rf24 {
      * Distinguishes the simulator body from the native C++ shim.
      */
     //% blockId=rf24_native_probe
-    //% block="RF24 prueba nativa"
+    //% block="RF24 native test"
+    //% block.loc.es="RF24 prueba nativa"
     //% shim=rf24::native_probe
     export function nativeProbe(): number {
         return 111
