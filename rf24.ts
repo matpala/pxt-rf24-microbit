@@ -4,7 +4,15 @@ namespace rf24 {
     const RF24_EVENT_VALUE = 1
     const RF24_MOTOR_EVENT_SOURCE = 0x5247
     const RF24_MOTOR_EVENT_VALUE = 1
+    const LEFT_MOTOR_PORT = robotbit.Motors.M1A
+    const RIGHT_MOTOR_PORT = robotbit.Motors.M2A
+    const LEFT_MOTOR_DIRECTION = 1
+    const RIGHT_MOTOR_DIRECTION = 1
+    const MOTOR_WATCHDOG_MS = 300
     let receiverStarted = false
+    let motorControlRegistered = false
+    let motorCommandActive = false
+    let lastMotorCommandAt = 0
 
     /**
      * Tests that the MakeCode extension loaded correctly.
@@ -57,16 +65,7 @@ namespace rf24 {
     //% weight=20
     export function onReceivedNumber(cb: (value: number) => void): void {
         control.onEvent(RF24_EVENT_SOURCE, RF24_EVENT_VALUE, () => cb(receivedNumber()))
-        if (receiverStarted)
-            return
-
-        receiverStarted = true
-        control.inBackground(() => {
-            while (true) {
-                pollReceivedNumber()
-                basic.pause(1)
-            }
-        })
+        startReceiver()
     }
 
     /**
@@ -80,8 +79,22 @@ namespace rf24 {
     //% group="Receive"
     //% weight=19
     export function onReceivedMotorCommand(cb: (left: number, right: number) => void): void {
+        motorControlRegistered = true
+        stopMotors()
         control.onEvent(RF24_MOTOR_EVENT_SOURCE, RF24_MOTOR_EVENT_VALUE,
-            () => cb(receivedMotorLeft(), receivedMotorRight()))
+            () => {
+                const left = receivedMotorLeft()
+                const right = receivedMotorRight()
+                lastMotorCommandAt = control.millis()
+                motorCommandActive = true
+                cb(left, right)
+                robotbit.MotorRunDual(LEFT_MOTOR_PORT, left * LEFT_MOTOR_DIRECTION,
+                    RIGHT_MOTOR_PORT, right * RIGHT_MOTOR_DIRECTION)
+            })
+        startReceiver()
+    }
+
+    function startReceiver(): void {
         if (receiverStarted)
             return
 
@@ -89,9 +102,17 @@ namespace rf24 {
         control.inBackground(() => {
             while (true) {
                 pollReceivedNumber()
+                if (motorControlRegistered && motorCommandActive &&
+                    control.millis() - lastMotorCommandAt >= MOTOR_WATCHDOG_MS)
+                    stopMotors()
                 basic.pause(1)
             }
         })
+    }
+
+    function stopMotors(): void {
+        motorCommandActive = false
+        robotbit.MotorRunDual(LEFT_MOTOR_PORT, 0, RIGHT_MOTOR_PORT, 0)
     }
 
     //% shim=rf24::poll_received_number

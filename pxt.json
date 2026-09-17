@@ -4,7 +4,8 @@
     "description": "Experimental RF24-compatible blocks for micro:bit V2",
     "license": "MIT",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "robotbit": "github:Kittenbot/pxt-robotbit"
     },
     "files": [
         "README.md",
